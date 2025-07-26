@@ -34,7 +34,7 @@ export default function Calculator() {
         </div>
         <div className="mb-6">
           <label className="block font-semibold text-blue-900 mb-2">Expected Annual Return (%)</label>
-          <input type="range" min="6" max="20" value={rate} onChange={e => setRate(Number(e.target.value))} className="w-full accent-blue-500" />
+          <input type="range" min="6" max="20" value={rate} onChange={e => setRate(Number(e.target.value))} className="w-full accent-blue-600" />
           <div className="flex justify-between text-sm text-gray-500 mt-1">
             <span>6%</span>
             <span>20%</span>
