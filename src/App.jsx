@@ -10,6 +10,7 @@ import Contact from './pages/Contact';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import BlogPost from './pages/BlogPost';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/plans" element={<Plans />} />
         <Route path="/calculator" element={<Calculator />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:postId" element={<BlogPost />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
       <ScrollToTop />

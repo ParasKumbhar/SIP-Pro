@@ -94,7 +94,7 @@ export default function Home() {
           <strong>SIP Formula:</strong> <span className="bg-gray-100 px-2 py-1 rounded">Compounded Amount = S × (1 + R/12)<sup>N×12</sup> + S × ((1 + R/12)<sup>N×12</sup> - 1) / (R/12) - S</span>
         </p>
         <p className="text-gray-700">
-          Try our <a href="/calculator" className="text-blue-700 underline">SIP Calculator</a> to plan your investments and reach your financial goals!
+          Try our <Link to="/calculator" className="text-blue-700 underline">SIP Calculator</Link> to plan your investments and reach your financial goals!
         </p>
       </section>
       {/* Testimonials Section */}
@@ -118,11 +118,50 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Mutual Funds Section */}
+      <section className="mt-20 max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-8">
+        <h2 className="text-3xl font-bold text-blue-900 mb-6 text-center">Mutual Funds: A Smart Investment Choice</h2>
+        <p className="text-gray-800 text-lg mb-4 text-center">
+          Mutual funds pool money from many investors to invest in a diversified portfolio of stocks, bonds, or other securities. They offer professional management, diversification, and liquidity, making them an accessible option for individual investors.
+        </p>
+        <ul className="list-disc pl-6 text-gray-700 mb-4 max-w-3xl mx-auto">
+          <li><strong>Types of Mutual Funds:</strong> Equity, Debt, Hybrid, and Index funds catering to different risk profiles and goals.</li>
+          <li><strong>Benefits:</strong> Diversification, professional management, affordability, and ease of investment.</li>
+          <li><strong>Considerations:</strong> Expense ratios, fund performance, and investment horizon.</li>
+        </ul>
+        <p className="text-gray-800 text-center">
+          Investing in mutual funds through SIPs allows you to build wealth steadily while managing risk effectively.
+        </p>
+      </section>
+
       {/* Newsletter Signup Section */}
       <section className="mt-20 max-w-xl mx-auto text-center">
         <h2 className="text-2xl font-bold text-blue-900 mb-4">Stay Updated!</h2>
         <p className="text-gray-700 mb-6">Subscribe to our newsletter for the latest SIP tips, market news, and exclusive offers.</p>
-        <form className="flex flex-col gap-4 items-center">
+        <form
+          className="flex flex-col gap-4 items-center"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const email = e.target.elements[0].value;
+            if (!email) return;
+            try {
+              const res = await fetch('http://localhost:5000/api/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+              });
+              const data = await res.json();
+              if (res.ok) {
+                alert(data.message);
+                e.target.reset();
+              } else {
+                alert(data.error || 'Subscription failed');
+              }
+            } catch (err) {
+              alert('Error connecting to server');
+            }
+          }}
+        >
           <input type="email" placeholder="Your email address" required className="p-3 rounded w-full max-w-xs bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-900" />
           <button type="submit" className="bg-yellow-400 text-blue-900 font-bold py-3 px-8 rounded-full shadow hover:bg-yellow-500 transition-all duration-300">Subscribe</button>
         </form>
