@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
+  const [subscribed, setSubscribed] = useState(false);
+
+  function handleSubscribe(e) {
+    e.preventDefault();
+    setSubscribed(true);
+    setTimeout(() => setSubscribed(false), 2500);
+  }
+
   return (
     <>
       <section className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-900 via-green-700 to-yellow-400 relative overflow-hidden">
@@ -138,32 +146,10 @@ export default function Home() {
       <section className="mt-20 max-w-xl mx-auto text-center">
         <h2 className="text-2xl font-bold text-blue-900 mb-4">Stay Updated!</h2>
         <p className="text-gray-700 mb-6">Subscribe to our newsletter for the latest SIP tips, market news, and exclusive offers.</p>
-        <form
-          className="flex flex-col gap-4 items-center"
-          onSubmit={async (e) => {
-            e.preventDefault();
-            const email = e.target.elements[0].value;
-            if (!email) return;
-            try {
-              const res = await fetch('http://localhost:5000/api/subscribe', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email }),
-              });
-              const data = await res.json();
-              if (res.ok) {
-                alert(data.message);
-                e.target.reset();
-              } else {
-                alert(data.error || 'Subscription failed');
-              }
-            } catch (err) {
-              alert('Error connecting to server');
-            }
-          }}
-        >
+        <form onSubmit={handleSubscribe} className="flex flex-col gap-4 items-center">
           <input type="email" placeholder="Your email address" required className="p-3 rounded w-full max-w-xs bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-900" />
           <button type="submit" className="bg-yellow-400 text-blue-900 font-bold py-3 px-8 rounded-full shadow hover:bg-yellow-500 transition-all duration-300">Subscribe</button>
+          {subscribed && <div className="text-green-700 font-semibold mt-2 animate-fade-in-up">You have successfully subscribed for the latest SIP tips.</div>}
         </form>
       </section>
     </>

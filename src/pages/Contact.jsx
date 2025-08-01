@@ -19,47 +19,18 @@ export default function Contact() {
     <section className="min-h-screen bg-gradient-to-br from-blue-50 via-green-50 to-yellow-100 py-16 px-4 flex flex-col items-center">
       <h2 className="text-4xl md:text-5xl font-extrabold text-blue-900 mb-10 animate-fade-in-up">Contact Us</h2>
       <div className="grid md:grid-cols-2 gap-12 w-full max-w-5xl animate-fade-in-up delay-200">
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            const formData = {
-              name: e.target.name.value,
-              email: e.target.email.value,
-              message: e.target.message.value,
-            };
-            if (!formData.name || !formData.email || !formData.message) {
-              alert('Please fill all fields');
-              return;
-            }
-            try {
-              const res = await fetch('http://localhost:5000/api/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
-              });
-              const data = await res.json();
-              if (res.ok) {
-                alert(data.message);
-                e.target.reset();
-              } else {
-                alert(data.error || 'Failed to send message');
-              }
-            } catch (err) {
-              alert('Error connecting to server');
-            }
-          }}
-          className="bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6"
-        >
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6">
           <label className="font-semibold text-blue-900">Name
-            <input type="text" name="name" required className="mt-2 p-3 rounded bg-gray-100 w-full focus:outline-none focus:ring-2 focus:ring-blue-900" />
+            <input type="text" name="name" value={form.name} onChange={handleChange} required className="mt-2 p-3 rounded bg-gray-100 w-full focus:outline-none focus:ring-2 focus:ring-blue-900" />
           </label>
           <label className="font-semibold text-blue-900">Email
-            <input type="email" name="email" required className="mt-2 p-3 rounded bg-gray-100 w-full focus:outline-none focus:ring-2 focus:ring-blue-900" />
+            <input type="email" name="email" value={form.email} onChange={handleChange} required className="mt-2 p-3 rounded bg-gray-100 w-full focus:outline-none focus:ring-2 focus:ring-blue-900" />
           </label>
           <label className="font-semibold text-blue-900">Message
-            <textarea name="message" required rows={4} className="mt-2 p-3 rounded bg-gray-100 w-full focus:outline-none focus:ring-2 focus:ring-blue-900" />
+            <textarea name="message" value={form.message} onChange={handleChange} required rows={4} className="mt-2 p-3 rounded bg-gray-100 w-full focus:outline-none focus:ring-2 focus:ring-blue-900" />
           </label>
           <button type="submit" className="bg-yellow-400 text-blue-900 font-bold py-3 rounded-full shadow hover:bg-yellow-500 transition-all duration-300">Send Message</button>
+          {submitted && <div className="text-green-700 font-semibold mt-2 animate-fade-in-up">Thank you! We'll get back to you soon.</div>}
         </form>
         <div className="flex flex-col gap-8 justify-center items-center">
           <iframe title="SIP Office Location" src="https://www.openstreetmap.org/export/embed.html?bbox=72.8337%2C18.9218%2C72.8337%2C18.9218&amp;layer=mapnik" className="w-full h-64 rounded-xl shadow" allowFullScreen loading="lazy"></iframe>
