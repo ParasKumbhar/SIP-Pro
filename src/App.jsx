@@ -11,6 +11,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import BlogPost from './pages/BlogPost';
+import PlanDetails from './pages/PlanDetails';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:postId" element={<BlogPost />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/plan/:plan" element={<PlanDetails />} />
       </Routes>
       <ScrollToTop />
       <Footer />

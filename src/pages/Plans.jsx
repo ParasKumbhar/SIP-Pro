@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const plans = [
   { title: "Starter Plan", price: "₹500/month", features: ["Low risk", "Ideal for students", "Flexible exit"], risk: "Low" },
@@ -13,9 +14,12 @@ const plans = [
   { title: "Global SIP", price: "₹3,500/month", features: ["International funds", "Currency diversification", "Global growth"], risk: "High" },
 ];
 
-export default function Plans() {
-  const [filter, setFilter] = useState('All');
+function Plans() {
+  const location = useLocation();
+  const initialFilter = location.state?.filter || 'All';
+  const [filter, setFilter] = useState(initialFilter);
   const filteredPlans = filter === 'All' ? plans : plans.filter(p => p.risk === filter);
+  const navigate = useNavigate();
 
   return (
     <section className="min-h-screen bg-gradient-to-br from-blue-50 via-green-50 to-yellow-100 py-16 px-4 flex flex-col items-center">
@@ -42,7 +46,12 @@ export default function Plans() {
             <ul className="mb-6 text-gray-600 space-y-2 list-none">
               {plan.features.map((feat, i) => <li key={i} className="flex items-center gap-2">• {feat}</li>)}
             </ul>
-            <button className="mt-auto w-full bg-yellow-400 text-blue-900 py-3 rounded-full font-bold shadow hover:bg-yellow-500 transition-all duration-300">Invest Now</button>
+            <button
+              className="mt-auto w-full bg-yellow-400 text-blue-900 py-3 rounded-full font-bold shadow hover:bg-yellow-500 transition-all duration-300"
+              onClick={() => navigate(`/plan/${encodeURIComponent(plan.title)}?risk=${filter}`)}
+            >
+              Invest Now
+            </button>
           </div>
         ))}
       </div>
@@ -60,3 +69,5 @@ export default function Plans() {
     </section>
   );
 }
+
+export default Plans;
